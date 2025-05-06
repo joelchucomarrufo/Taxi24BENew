@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { DriverModule } from './modules/driver/driver.module';
+import { PassengerModule } from './modules/passenger/passenger.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DriverModule } from './modules/driver/driver.module';
       autoLoadEntities: true,
     }),
     DriverModule,
+    PassengerModule,
   ],
 })
 export class AppModule {}

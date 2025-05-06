@@ -130,6 +130,33 @@ Puedes probar con Postman:
 
 ---
 
+## 📦 Nuevas funcionalidades agregadas (Actualizado: 2025-05-06)
+
+### 🧱 Módulos creados:
+- **Drivers**: con endpoints para registrar, listar, actualizar ubicación/estado y obtener los 3 más cercanos.
+- **Passengers**: módulo estructurado con entidad y campos de auditoría (`createdAt`, `updatedAt`).
+- **Trips y Billing**: definidos como módulos independientes, por implementar.
+
+### 🧪 Endpoints destacados (Swagger):
+- **GET /drivers**: Lista todos los conductores.
+- **GET /drivers/available**: Lista todos los conductores con estado `"Disponible"`.
+- **GET /drivers/nearby**: Devuelve los 3 conductores más cercanos a una ubicación (`latitude`, `longitude`).
+- **PATCH /drivers/:id/location-status**: Actualiza ubicación y estado de un conductor.
+- Todos los endpoints devuelven respuestas estandarizadas usando `BaseResponse`.
+
+### 🧾 Swagger
+Disponible en: [http://localhost:3000/api](http://localhost:3000/api)
+
+### 🛠️ BaseResponse implementado en todos los controladores:
+Cada respuesta incluye:
+```json
+{
+  "status": "success" | "error",
+  "message": "Mensaje explicativo",
+  "data": { ... }
+}
+---
+
 ## ✅ Pendiente por implementar
 
 - Módulo `Passenger`

@@ -6,6 +6,8 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BaseResponse } from 'src/common/base-response.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Driver } from '../domain/driver.entity';
+import { LocationQueryDto } from '../dto/location-query.dto';
+
 
 @ApiTags('Drivers')
 @Controller('drivers')
@@ -47,40 +49,6 @@ export class DriverController {
   @ApiOperation({ summary: 'Obtiene todos los conductores' })
   findAll() {
     return this.driverService.findAll();
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Buscar conductor por ID' })
-  async findById(@Param('id') id: string): Promise<BaseResponse<Driver>> {
-    try {
-      const driver = await this.driverService.findById(id);
-
-      if (!driver) {
-        throw new HttpException(
-          new BaseResponse<Driver>({
-            status: 'error',
-            message: `No se encontró el conductor con id ${id}`,
-            data: null,
-          }),
-          HttpStatus.NOT_FOUND,
-        );
-      }
-
-      return new BaseResponse<Driver>({
-        status: 'success',
-        message: 'Conductor encontrado',
-        data: driver,
-      });
-    } catch (err) {
-      throw new HttpException(
-        new BaseResponse<Driver>({
-          status: 'error',
-          message: err.message || 'Error inesperado',
-          data: null,
-        }),
-        err.status || HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
   }
 
   @Get('available')
@@ -134,4 +102,55 @@ export class DriverController {
       data: drivers,
     });
   }
+
+  @Get('closest')
+  @ApiOperation({ summary: 'Obtener los 3 conductores más cercanos a una ubicación' })
+  async getClosestDrivers(
+    @Query() query: LocationQueryDto,
+  ): Promise<BaseResponse<any[]>> {
+    const lat = parseFloat(query.lat);
+    const lng = parseFloat(query.lng);
+
+    const drivers = await this.driverService.findClosestDrivers(lat, lng);
+    return new BaseResponse({
+      status: 'success',
+      message: 'Conductores más cercanos obtenidos correctamente',
+      data: drivers,
+    });
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Buscar conductor por ID' })
+  async findById(@Param('id') id: string): Promise<BaseResponse<Driver>> {
+    try {
+      const driver = await this.driverService.findById(id);
+
+      if (!driver) {
+        throw new HttpException(
+          new BaseResponse<Driver>({
+            status: 'error',
+            message: `No se encontró el conductor con id ${id}`,
+            data: null,
+          }),
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return new BaseResponse<Driver>({
+        status: 'success',
+        message: 'Conductor encontrado',
+        data: driver,
+      });
+    } catch (err) {
+      throw new HttpException(
+        new BaseResponse<Driver>({
+          status: 'error',
+          message: err.message || 'Error inesperado',
+          data: null,
+        }),
+        err.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
 }
