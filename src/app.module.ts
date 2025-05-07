@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DriverModule } from './modules/driver/driver.module';
 import { PassengerModule } from './modules/passenger/passenger.module';
 import { TripModule } from './modules/trip/trip.module';
+import { BillingModule } from './modules/billing/billing.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TripModule } from './modules/trip/trip.module';
     DriverModule,
     PassengerModule,
     TripModule,
+    BillingModule,
   ],
 })
 export class AppModule {}

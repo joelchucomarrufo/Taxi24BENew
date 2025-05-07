@@ -28,7 +28,7 @@ export class TripController {
         @Param('id') id: string,
         @Body() dto: CompleteTripDto,
     ): Promise<BaseResponse<Trip>> {
-        const result = await this.tripService.complete(id, dto);
+        const result = await this.tripService.completeTrip(id, dto);
         return new BaseResponse({
             status: 'success',
             message: 'Viaje completado con éxito',

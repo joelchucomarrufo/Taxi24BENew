@@ -11,7 +11,7 @@ END$$;
 
 -- Crear tabla drivers
 CREATE TABLE IF NOT EXISTS drivers (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     license VARCHAR(50) UNIQUE NOT NULL,
@@ -45,7 +45,7 @@ END$$;
 
 -- Crear tabla passengers con campos de auditoría
 CREATE TABLE IF NOT EXISTS passengers (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     document_number VARCHAR(20) UNIQUE NOT NULL,
@@ -99,13 +99,12 @@ CREATE TABLE IF NOT EXISTS trips (
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insertar 5 viajes activos (relaciones simuladas)
--- Asegúrate de usar UUIDs válidos de drivers y passengers si deseas mantener consistencia con los datos anteriores
--- Aquí se insertan con gen_random_uuid() para ejemplo
-INSERT INTO trips (driverId, passengerId, originLat, originLng, status)
-VALUES
-(gen_random_uuid(), gen_random_uuid(), -12.1791, -77.0175, 'Activo'),
-(gen_random_uuid(), gen_random_uuid(), -12.1802, -77.0181, 'Activo'),
-(gen_random_uuid(), gen_random_uuid(), -12.1818, -77.0163, 'Activo'),
-(gen_random_uuid(), gen_random_uuid(), -12.1775, -77.0190, 'Activo'),
-(gen_random_uuid(), gen_random_uuid(), -12.1798, -77.0166, 'Activo');
+-- Crear tabla billings
+CREATE TABLE IF NOT EXISTS billing (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tripId UUID NOT NULL REFERENCES trips(id),
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50) DEFAULT 'Tarjeta',
+    createdAt TIMESTAMP DEFAULT now(),
+    updatedAt TIMESTAMP DEFAULT now()
+);
