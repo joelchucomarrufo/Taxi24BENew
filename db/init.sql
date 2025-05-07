@@ -76,3 +76,36 @@ VALUES
 (gen_random_uuid(), 'Sandra', 'Castro', 'DNI1013', 'sandra@example.com', '985000444', 'Activo', -12.178700, -77.017800),
 (gen_random_uuid(), 'Miguel', 'Peralta', 'DNI1014', 'miguel@example.com', '984000555', 'Activo', -12.179800, -77.016600),
 (gen_random_uuid(), 'Carmen', 'Rojas', 'DNI1015', 'carmen@example.com', '983000666', 'Inactivo', -12.180500, -77.017100);
+
+-- Crear tipo ENUM para estado del viaje
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'trip_status') THEN
+    CREATE TYPE trip_status AS ENUM ('Activo', 'Completado');
+  END IF;
+END$$;
+
+-- Crear tabla trips
+CREATE TABLE IF NOT EXISTS trips (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    driverId UUID NOT NULL,
+    passengerId UUID NOT NULL,
+    originLat DOUBLE PRECISION NOT NULL,
+    originLng DOUBLE PRECISION NOT NULL,
+    destinationLat DOUBLE PRECISION,
+    destinationLng DOUBLE PRECISION,
+    status trip_status DEFAULT 'Activo',
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insertar 5 viajes activos (relaciones simuladas)
+-- Asegúrate de usar UUIDs válidos de drivers y passengers si deseas mantener consistencia con los datos anteriores
+-- Aquí se insertan con gen_random_uuid() para ejemplo
+INSERT INTO trips (driverId, passengerId, originLat, originLng, status)
+VALUES
+(gen_random_uuid(), gen_random_uuid(), -12.1791, -77.0175, 'Activo'),
+(gen_random_uuid(), gen_random_uuid(), -12.1802, -77.0181, 'Activo'),
+(gen_random_uuid(), gen_random_uuid(), -12.1818, -77.0163, 'Activo'),
+(gen_random_uuid(), gen_random_uuid(), -12.1775, -77.0190, 'Activo'),
+(gen_random_uuid(), gen_random_uuid(), -12.1798, -77.0166, 'Activo');
