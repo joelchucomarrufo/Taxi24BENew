@@ -1,22 +1,37 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { DriverStatus } from './driver-status.enum';
 
-@Entity()
+@Entity('drivers')
 export class Driver {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  name: string;
+  first_name: string;
 
-  @Column('float')
+  @Column()
+  last_name: string;
+
+  @Column({ unique: true })
+  license: string;
+
+  @Column('double precision')
   latitude: number;
 
-  @Column('float')
+  @Column('double precision')
   longitude: number;
 
-  @Column({ default: true })
-  isAvailable: boolean;
+  @Column({
+    type: 'enum',
+    enum: DriverStatus,
+    default: DriverStatus.DISPONIBLE,
+  })
+  status: DriverStatus;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'createdat' })
   createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updatedat' })
+  updatedAt: Date;
+
 }
