@@ -1,0 +1,438 @@
+{
+	"info": {
+		"_postman_id": "0a283d27-c2ac-4405-8d55-a82de6d9a897",
+		"name": "Taxi24 API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2714825"
+	},
+	"item": [
+		{
+			"name": "Drivers",
+			"item": [
+				{
+					"name": "Get all drivers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/drivers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get driver by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/drivers/{{driverId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers",
+								"{{driverId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get closest drivers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/drivers/closest?lat=-12.1793&lng=-77.0173",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers",
+								"closest"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "-12.1793"
+								},
+								{
+									"key": "lng",
+									"value": "-77.0173"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post create driver",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"first_name\": \"Lucas\",\n  \"last_name\": \"Marin\",\n  \"license\": \"LIC011\",\n  \"latitude\": -12.05,\n  \"longitude\": -77.04,\n  \"status\": \"Disponible\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/drivers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Update location and status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"latitude\": -12.23456,\n  \"longitude\": -77.23456,\n  \"status\": \"Disponible\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/drivers/{{driverId}}/location-status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers",
+								"{{driverId}}",
+								"location-status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Drivers availables",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/drivers/available",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers",
+								"available"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Drivers availables nearby",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/drivers/available/nearby?latitude=-12.1793&longitude=-77.0173",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"drivers",
+								"available",
+								"nearby"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "-12.1793"
+								},
+								{
+									"key": "longitude",
+									"value": "-77.0173"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trips",
+			"item": [
+				{
+					"name": "Create a trip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"driverId\": \"{{driverId}}\",\n  \"passengerId\": \"{{passengerId}}\",\n  \"originLat\": -12.1,\n  \"originLng\": -77.05,\n  \"destinationLat\": -12.15,\n  \"destinationLng\": -77.06\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/trips",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trips"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete a trip",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"destinationLat\": -12.74,\n  \"destinationLng\": -77.84\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/trips/{{tripId}}/complete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trips",
+								"{{tripId}}",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get active trips",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/trips/active",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trips",
+								"active"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Passengers",
+			"item": [
+				{
+					"name": "Get all passengers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passengers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passengers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update passenger location",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"latitude\": -12.12,\n  \"longitude\": -77.06,\n  \"status\": \"Activo\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passengers/{{passengerId}}/location-status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passengers",
+								"{{passengerId}}",
+								"location-status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Create passenger",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Joel\",\n  \"lastName\": \"Chuco\",\n  \"documentNumber\": \"J85478241\",\n  \"email\": \"joel.chuco@example.com\",\n  \"phone\": \"999888777\",\n  \"status\": \"Activo\",\n  \"latitude\": -12.05,\n  \"longitude\": -77.04\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/passengers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passengers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Passenger by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passengers/{{passengerId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passengers",
+								"{{passengerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Billings",
+			"item": [
+				{
+					"name": "Get all billings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/billing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"billing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get billing by trip ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/billings/trip/{{tripId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"billings",
+								"trip",
+								"{{tripId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
